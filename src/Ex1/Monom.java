@@ -3,6 +3,7 @@ package Ex1;
 import java.util.Comparator;
 
 
+
 import javax.management.RuntimeErrorException;
 
 
@@ -244,15 +245,22 @@ public class Monom implements function
 	 * @param Monom m
 	 * @return true if this Monom  represents the same function as Monom m
 	 */
-	public boolean equals(Monom m)
+	public boolean equals(Object m1)
 	{
-		if(this._coefficient==m.get_coefficient()&&this._coefficient==0)
-			return true;
-		else
+		if(m1 instanceof Monom) 
 		{
-			double e=Math.abs(this._coefficient-m.get_coefficient());
-			return (e<=EPSILON&&this._power==m.get_power());
+			Monom m=(Monom)m1;
+			if(this._coefficient==m.get_coefficient()&&this._coefficient==0)
+				return true;
+			else
+			{
+				double e=Math.abs(this._coefficient-m.get_coefficient());
+				return (e<=EPSILON&&this._power==m.get_power());
+			}
 		}
+		else
+			return false;
+		
 	}
 	// you may (always) add other methods.
 

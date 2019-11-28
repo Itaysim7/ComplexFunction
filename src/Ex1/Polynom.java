@@ -202,33 +202,40 @@ public class Polynom implements Polynom_able
 	 * @param Polynom_able p1
 	 * @return true if this polynom represents the same function as Polynom_able p1
 	 */
-	public boolean equals(Polynom_able p1)
+	public boolean equals(Object p)
 	{
 		// The method return true if the Polynoms are equals
-		Iterator<Monom> iter1=p1.iteretor();
-		int count=0;
-		while(iter1.hasNext())	//calculate the number of the Monoms
+		if(p instanceof Polynom_able) 
 		{
-			iter1.next();
-			count++;
-		}
-		if(count!=poly.size()) //if the number different return false
-			return false;
-		iter1=p1.iteretor();
-		while(iter1.hasNext())	
-		{
-			Monom m=new Monom(iter1.next());
-			int power=this.containsPower(m.get_power());
-			if(power!=-1)
+			Polynom_able p1=(Polynom_able)p;
+			Iterator<Monom> iter1=p1.iteretor();
+			int count=0;
+			while(iter1.hasNext())	//calculate the number of the Monoms
 			{
-				//if the power is the same check if the Monoms are equals
-				if(!m.equals(poly.get(power)))
+				iter1.next();
+				count++;
+			}
+			if(count!=poly.size()) //if the number different return false
+				return false;
+			iter1=p1.iteretor();
+			while(iter1.hasNext())	
+			{
+				Monom m=new Monom(iter1.next());
+				int power=this.containsPower(m.get_power());
+				if(power!=-1)
+				{
+					//if the power is the same check if the Monoms are equals
+					if(!m.equals(poly.get(power)))
+						return false;
+				}
+				else
 					return false;
 			}
-			else
-				return false;
+			return true;
 		}
-		return true;
+		else
+			return false;
+		
 	}
 	/**
 	 * Test if this is the Zero Polynom
