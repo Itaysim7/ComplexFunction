@@ -234,6 +234,12 @@ public class Polynom implements Polynom_able
 			return true;
 		}
 		else
+			if(p instanceof Monom) 
+			{
+				if(p.toString().equals(this.toString()))
+					return true;
+				return false;
+			}
 			return false;
 		
 	}

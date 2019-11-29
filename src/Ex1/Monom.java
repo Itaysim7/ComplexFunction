@@ -1,8 +1,7 @@
 package Ex1;
 
 import java.util.Comparator;
-
-
+import java.util.Iterator;
 
 import javax.management.RuntimeErrorException;
 
@@ -259,6 +258,13 @@ public class Monom implements function
 			}
 		}
 		else
+			if(m1 instanceof Polynom_able) 
+			{
+				if(m1.toString().equals(this.toString()))
+					return true;
+				return false;
+			}
+		else
 			return false;
 		
 	}
@@ -288,20 +294,21 @@ public class Monom implements function
 	{
 		return new Monom(ZERO);
 	}
-
-	@Override
-	public function initFromString(String s) {
-		// TODO Auto-generated method stub
-		return null;
+@Override
+	public function initFromString(String s)
+	{
+		function f=new Monom(s);
+		return f;
 	}
-
-	@Override
-	public function copy() {
-		// TODO Auto-generated method stub
-		return null;
+	/**
+	 * create function from the Monom(deep copy)
+	 * @return function
+	 */
+	public function copy() 
+	{
+		function f=new Monom(this.toString());
+		return f;
 	}
-	
-
 }
 
     
