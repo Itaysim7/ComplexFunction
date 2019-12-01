@@ -140,7 +140,7 @@ public class Polynom implements Polynom_able
 	 */
 	public void substract(Polynom_able p1)
 	{	// The method subtract the p1 from the Polynom
-		Polynom_able copy=p1.copy();
+		Polynom copy=new Polynom(p1.toString());
 		copy.multiply(MINUS1);
 		this.add(copy);
 	}
@@ -185,16 +185,16 @@ public class Polynom implements Polynom_able
 	public void multiply(Polynom_able p1) 
 	{
 	//  The method multiply polynom with polynom
-		Polynom_able copy=p1.copy();//incase p1 us this polynom.
-		Polynom_able tempChange=this.copy();
-		Polynom_able saver=this.copy();
+		Polynom_able copy=new Polynom(p1.toString());;//incase p1 us this polynom.
+		Polynom_able tempChange=new Polynom(this.toString());
+		Polynom_able saver=new Polynom(this.toString());
 		this.multiply(ZERO);
 		Iterator<Monom> iter1=copy.iteretor();
 		while(iter1.hasNext())	
 		{
 			tempChange.multiply(iter1.next());
 			this.add(tempChange);
-			tempChange=saver.copy();
+			tempChange=new Polynom(saver.toString());
 		}
 	}
 	/**
@@ -293,9 +293,9 @@ public class Polynom implements Polynom_able
 	 * create a deep copy of this Polynom
 	 * @return the copy
 	 **/
-	public Polynom_able copy()
+	public function copy()
 	{
-		Polynom temp=new Polynom(this.toString());
+		function temp=new Polynom(this.toString());
 		return temp;
 	}
 	/**
@@ -366,9 +366,9 @@ public class Polynom implements Polynom_able
 		return p;
 	}
 	@Override
-	public function initFromString(String s) {
-		// TODO Auto-generated method stub
-		return null;
+	public function initFromString(String s) 
+	{
+		function p=new Polynom(s);
+		return p;
 	}
 }
-    

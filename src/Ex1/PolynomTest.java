@@ -195,7 +195,7 @@ public class PolynomTest
 	@Test
 	public void testCopy()
 	{
-		Polynom_able [] actualArr=new Polynom_able[5];
+		function [] actualArr=new Polynom_able[5];
 		
 		for(int i=0;i<pol.length;i++) 
 		{

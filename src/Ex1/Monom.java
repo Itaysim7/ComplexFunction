@@ -1,6 +1,7 @@
 package Ex1;
 
 import java.util.Comparator;
+
 import java.util.Iterator;
 
 import javax.management.RuntimeErrorException;
@@ -294,8 +295,7 @@ public class Monom implements function
 	{
 		return new Monom(ZERO);
 	}
-@Override
-	public function initFromString(String s)
+	public function initFromString(String s)//********
 	{
 		function f=new Monom(s);
 		return f;
@@ -306,8 +306,8 @@ public class Monom implements function
 	 */
 	public function copy() 
 	{
-		function f=new Monom(this.toString());
-		return f;
+		function m=new Monom(this.toString());
+		return m;
 	}
 }
 
