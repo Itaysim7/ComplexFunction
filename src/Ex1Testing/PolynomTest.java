@@ -1,4 +1,4 @@
-package Ex1;
+package Ex1Testing;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
@@ -10,6 +10,11 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import Ex1.Monom;
+import Ex1.Polynom;
+import Ex1.Polynom_able;
+import Ex1.function;
 
 public class PolynomTest
 {
@@ -234,10 +239,10 @@ public class PolynomTest
 	public void testToString() 
 	{
 		assertEquals("0",pol[0].toString());
-		assertEquals("1.0x^2+1.0x+1.0",pol[1].toString());
-		assertEquals("1.0x^5-1.5x",pol[2].toString());
+		assertEquals("+1.0x^2+1.0x+1.0",pol[1].toString());
+		assertEquals("+1.0x^5-1.5x",pol[2].toString());
 		assertEquals("-5.0x^3+9.0",pol[3].toString());
-		assertEquals("1.0",pol[4].toString());
+		assertEquals("+1.0",pol[4].toString());
 	}
 
 //	@Test

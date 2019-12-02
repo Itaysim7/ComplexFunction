@@ -77,7 +77,6 @@ public class ComplexFunction implements complex_function
 		}
 	}
 
-	@Override
 	public function initFromString(String s) 
 	{
 		function f=new ComplexFunction(s);
@@ -85,6 +84,7 @@ public class ComplexFunction implements complex_function
 	}
 	private ComplexFunction helpComplexFunction(String s) 
 	{
+		s=s.replaceAll("\\s+","");
 		char c=s.charAt(0);
 		System.out.println(c);
 		if(c!='m'&&c!='c'&&c!='d'&&c!='n'&&c!='p')//if its not a complex function
@@ -232,7 +232,6 @@ public class ComplexFunction implements complex_function
 		int open=0;
 		int close=0;
 		int comma=0;
-		System.out.println(s.charAt(5));
 		for(int i=5;i<s.length();i++)
 		{
 			if(s.charAt(i)=='(')
@@ -253,7 +252,6 @@ public class ComplexFunction implements complex_function
 	{
 		if(s.length()>=5&&s.substring(0, 5).equals("f(x)=")&&this.parenthesisTest(s))
 		{
-			System.out.println(s.substring(0, 5));
 			System.out.println(s.substring(5, s.length()));
 			ComplexFunction com=helpComplexFunction(s.substring(5,s.length()));
 			this.op=com.getOp();
@@ -262,6 +260,18 @@ public class ComplexFunction implements complex_function
 		}
 		else
 			throw new RuntimeException("ERR the string is not a ComplexFunction");
+	}
+	public ComplexFunction(Polynom p) 
+	{
+		this.left=p;
+		this.right=null;
+		this.op=Operation.None;
+	}
+	public ComplexFunction(Monom m) 
+	{
+		this.left=m;
+		this.right=null;
+		this.op=Operation.None;
 	}
 	public double f(double x) 
 	{

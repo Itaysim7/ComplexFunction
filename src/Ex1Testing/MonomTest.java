@@ -1,4 +1,4 @@
-package Ex1;
+package Ex1Testing;
 
 import static org.junit.Assert.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -8,6 +8,9 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import Ex1.Monom;
+import Ex1.Polynom;
 
 public class MonomTest
 {

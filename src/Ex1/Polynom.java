@@ -36,22 +36,22 @@ public class Polynom implements Polynom_able
 		poly=new ArrayList<Monom>() ;
 		int i=0;
 		int start=i;
-		boolean minus=false;
+		boolean sign=false;
 		while(i<s.length()) 
 		{
-			if(s.charAt(i)=='-'&&((i==0)||s.charAt(i-1)!='+'))//check if its negative 
+			if((s.charAt(i)=='-'||s.charAt(i)=='+')&&((i==0)||s.charAt(i-1)!='+'))//check if its negative 
 			{
-				minus=true;
+				sign=true;
 				i++;
 			}
 			start=i;
 			while(i<s.length()&&s.charAt(i)!='-'&&s.charAt(i)!='+') 
 				i++;
-			if(minus==true) 
+			if(sign==true) 
 			{
 				start--;//if its negative enter the minus to the string
 				this.add(new Monom(s.substring(start,i)));
-				minus=false;
+				sign=false;
 			}
 			else {
 				String sub=s.substring(start,i);
@@ -357,11 +357,8 @@ public class Polynom implements Polynom_able
 			return "0";
 		String p=""+poly.get(0);
 		for(int i=1;i<poly.size();i++)
-		{
-			if(poly.get(i).get_coefficient()<0) 
+		{ 
 				p=p+poly.get(i);
-			else
-				p=p+"+"+poly.get(i);
 		}
 		return p;
 	}

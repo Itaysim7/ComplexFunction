@@ -111,7 +111,7 @@ public class Monom implements function
 		boolean conX=s.contains("x");
 		if(!conX) /*if the String isn't contains x,check if its legal double*/
 		{
-			boolean isD=s.matches("[-]?[0-9]*\\.?[0-9]*")&&!s.equals("-")&&!s.equals("")&&!s.equals(".");
+			boolean isD=s.matches("[-/+]?[0-9]*\\.?[0-9]*")&&!s.equals("-")&&!s.equals("")&&!s.equals(".");
 			if(!isD) 
 				throw new RuntimeException("ERR the string isnt legal ");
 			else
@@ -125,7 +125,7 @@ public class Monom implements function
 		{ /*the string contains x*/
 			int xplace=s.indexOf('x');
 			String str1=s.substring(0, xplace);
-			boolean isD=str1.matches("[-]?[0-9]*\\.?[0-9]*");/*check if the coefficient is legal*/
+			boolean isD=str1.matches("[-/+]?[0-9]*\\.?[0-9]*");/*check if the coefficient is legal*/
 			boolean isI=true;
 			String str2="1";
 			if(xplace+1!=s.length()) /*if x is not the last char at the string*/
@@ -223,21 +223,28 @@ public class Monom implements function
 	{
 		String ans="";
 		if(this._coefficient==0)/*"Monom" of shape 0*/
-		{
 			return "0";
-		}
 		if(this._power==0)/*"Monom" of shape a*x^0*/
 		{
-			ans=""+this._coefficient;
+			if(this._coefficient>0)
+				ans="+"+this._coefficient;
+			else
+				ans=""+this._coefficient;
 			return ans;
 		}
-		if(this._power==1)/*"Monom" of shape a*x^0*/
+		if(this._power==1)/*"Monom" of shape a*x^1*/
 		{
-			ans=""+this._coefficient+"x";
+			if(this._coefficient>0)
+				ans="+"+this._coefficient+"x";
+			else
+				ans=""+this._coefficient+"x";
 			return ans;
 		}
 		/*"Monom" of shape ax^b*/
-		ans=""+this._coefficient+"x^"+this._power;
+		if(this._coefficient>0)
+			ans="+"+this._coefficient+"x^"+this._power;
+		else
+			ans=""+this._coefficient+"x^"+this._power;
 		return ans;
 	}
 	/**
