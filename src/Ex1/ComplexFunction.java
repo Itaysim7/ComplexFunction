@@ -76,139 +76,151 @@ public class ComplexFunction implements complex_function
 			}
 		}
 	}
+	
+	public ComplexFunction(function f) 
+	{
+		this.left=f;
+		this.right=null;
+		this.op=Operation.None;
+	}
+	
+	public ComplexFunction(String s) 
+	{
+		if(this.parenthesisTest(s))
+		{
+			s=s.replaceAll("\\s+","");
+			char c=s.charAt(0);
+			if(c!='m'&&c!='c'&&c!='d'&&c!='n'&&c!='p')//if its not a complex function
+			{
+				function p=new Polynom(s);
+				ComplexFunction complex=new ComplexFunction(Operation.None,p,null);
+				this.op=complex.op;
+				this.left=complex.left;
+				this.right=complex.right;
+			}
+			else
+				if(s.length()>3)
+				{
+					switch(s.substring(0,3))//if it is still a complex function continue to split
+					{
+						case "mul":
+						{
+							if(s.charAt(3)=='('&&s.charAt(s.length()-1)==')')
+							{
+								int split=this.findComma(s);	
+								ComplexFunction complex=new ComplexFunction(Operation.Times,new ComplexFunction(s.substring(4,split)),new ComplexFunction(s.substring(split+1,s.length()-1)));
+								this.op=complex.op;
+								this.left=complex.left;
+								this.right=complex.right;
+								break;
+							}
+							else
+								throw new RuntimeException("ERR the string is not a ComplexFunction");
+						}
+						case "min":
+						{
+							if(s.charAt(3)=='('&&s.charAt(s.length()-1)==')')
+							{
+								int split=this.findComma(s);	
+								ComplexFunction complex=new ComplexFunction(Operation.Min,new ComplexFunction(s.substring(4,split)),new ComplexFunction(s.substring(split+1,s.length()-1)));
+								this.op=complex.op;
+								this.left=complex.left;
+								this.right=complex.right;
+								break;
+							}
+							else
+								throw new RuntimeException("ERR the string is not a ComplexFunction");
+						}
+						case "max":
+						{
+							if(s.charAt(3)=='('&&s.charAt(s.length()-1)==')')
+							{
+								int split=this.findComma(s);	
+								ComplexFunction complex=new ComplexFunction(Operation.Max,new ComplexFunction(s.substring(4,split)), new ComplexFunction(s.substring(split+1,s.length()-1)));
+								this.op=complex.op;
+								this.left=complex.left;
+								this.right=complex.right;
+								break;
+							}
+							else
+								throw new RuntimeException("ERR the string is not a ComplexFunction");
+						}
+						case "div":
+						{
+							if(s.charAt(3)=='('&&s.charAt(s.length()-1)==')')
+							{
+								int split=this.findComma(s);
+								ComplexFunction complex=new ComplexFunction(Operation.Divid,new ComplexFunction(s.substring(4,split)),new ComplexFunction(s.substring(split+1,s.length()-1)));
+								this.op=complex.op;
+								this.left=complex.left;
+								this.right=complex.right;
+								break;
+							}
+							else
+								throw new RuntimeException("ERR the string is not a ComplexFunction");
+						}
+						case "com":
+						{
+							if(s.charAt(3)=='p'&&s.charAt(4)=='('&&s.charAt(s.length()-1)==')')
+							{
+								int split=this.findComma(s);	
+								ComplexFunction complex=new ComplexFunction(Operation.Comp,new ComplexFunction(s.substring(5,split)),new ComplexFunction(s.substring(split+1,s.length()-1)));
+								this.op=complex.op;
+								this.left=complex.left;
+								this.right=complex.right;
+								break;
+							}
+							else
+								throw new RuntimeException("ERR the string is not a ComplexFunction");
+						}
+						case "plu":
+						{
+							if(s.charAt(3)=='s'&&s.charAt(4)=='('&&s.charAt(s.length()-1)==')')
+							{
+								int split=this.findComma(s);	
+								ComplexFunction complex=new ComplexFunction(Operation.Plus,new ComplexFunction(s.substring(5,split)),new ComplexFunction(s.substring(split+1,s.length()-1)));
+								this.op=complex.op;
+								this.left=complex.left;
+								this.right=complex.right;
+								break;
+							}
+							else
+								throw new RuntimeException("ERR the string is not a ComplexFunction");
+						}
+						case "non":
+						{
+							if(s.charAt(3)=='e'&&s.charAt(4)=='('&&s.charAt(s.length()-1)==')')
+							{
+								int split=this.findComma(s);	
+								if(s.substring(split+1,s.length()-1).isEmpty()) 
+								{
+									ComplexFunction complex=new ComplexFunction(Operation.None,new ComplexFunction(s.substring(5,split)),null);
+									this.op=complex.op;
+									this.left=complex.left;
+									this.right=complex.right;
+									break;
+								}
+								else
+									throw new RuntimeException("ERR the string is not a ComplexFunction");
 
+							}
+							else
+								throw new RuntimeException("ERR the string is not a ComplexFunction");
+						}
+						default :
+							throw new RuntimeException("ERR the string is not a ComplexFunction");
+					}
+				}
+				else
+					throw new RuntimeException("ERR the string is not a ComplexFunction");
+		}
+		else
+			throw new RuntimeException("ERR the string is not a ComplexFunction");
+	}
 	public function initFromString(String s) 
 	{
 		function f=new ComplexFunction(s);
 		return f;
-	}
-	private ComplexFunction helpComplexFunction(String s) 
-	{
-		s=s.replaceAll("\\s+","");
-		char c=s.charAt(0);
-		System.out.println(c);
-		if(c!='m'&&c!='c'&&c!='d'&&c!='n'&&c!='p')//if its not a complex function
-		{
-			System.out.println(s);
-			function p=new Polynom(s);
-			ComplexFunction complex=new ComplexFunction(Operation.None,p,null);
-			return complex;
-		}
-		else
-			if(s.length()>3)
-			{
-				switch(s.substring(0,3))//if it is still a complex function continue to split
-				{
-					case "mul":
-					{
-						if(s.charAt(3)=='('&&s.charAt(s.length()-1)==')')
-						{
-							int split=this.findComma(s);	
-							System.out.println(split);
-							System.out.println(s.substring(4,split));
-							System.out.println(s.substring(split+1,s.length()-1));
-							ComplexFunction complex=new ComplexFunction(Operation.Times,helpComplexFunction(s.substring(4,split)),helpComplexFunction(s.substring(split+1,s.length()-1)));
-							return complex;
-						}
-						else
-							throw new RuntimeException("ERR the string is not a ComplexFunction");
-					}
-					case "min":
-					{
-						if(s.charAt(3)=='('&&s.charAt(s.length()-1)==')')
-						{
-							int split=this.findComma(s);	
-							System.out.println(split);
-							System.out.println(s.substring(4,split));
-							System.out.println(s.substring(split+1,s.length()-1));
-							ComplexFunction complex=new ComplexFunction(Operation.Min,helpComplexFunction(s.substring(4,split)),helpComplexFunction(s.substring(split+1,s.length()-1)));
-							return complex;
-						}
-						else
-							throw new RuntimeException("ERR the string is not a ComplexFunction");
-					}
-					case "max":
-					{
-						if(s.charAt(3)=='('&&s.charAt(s.length()-1)==')')
-						{
-							int split=this.findComma(s);	
-							System.out.println(split);
-							System.out.println(s.substring(4,split));
-							System.out.println(s.substring(split+1,s.length()-1));
-							ComplexFunction complex=new ComplexFunction(Operation.Max,helpComplexFunction(s.substring(4,split)),helpComplexFunction(s.substring(split+1,s.length()-1)));
-							return complex;
-						}
-						else
-							throw new RuntimeException("ERR the string is not a ComplexFunction");
-					}
-					case "div":
-					{
-						if(s.charAt(3)=='('&&s.charAt(s.length()-1)==')')
-						{
-							int split=this.findComma(s);	
-							System.out.println(split);
-							System.out.println(s.substring(4,split));
-							System.out.println(s.substring(split+1,s.length()-1));
-							ComplexFunction complex=new ComplexFunction(Operation.Divid,helpComplexFunction(s.substring(4,split)),helpComplexFunction(s.substring(split+1,s.length()-1)));
-							return complex;
-						}
-						else
-							throw new RuntimeException("ERR the string is not a ComplexFunction");
-					}
-					case "com":
-					{
-						if(s.charAt(3)=='p'&&s.charAt(4)=='('&&s.charAt(s.length()-1)==')')
-						{
-							int split=this.findComma(s);	
-							System.out.println(split);
-							System.out.println(s.substring(5,split));
-							System.out.println(s.substring(split+1,s.length()-1));
-							ComplexFunction complex=new ComplexFunction(Operation.Comp,helpComplexFunction(s.substring(5,split)),helpComplexFunction(s.substring(split+1,s.length()-1)));
-							return complex;
-						}
-						else
-							throw new RuntimeException("ERR the string is not a ComplexFunction");
-					}
-					case "plu":
-					{
-						if(s.charAt(3)=='s'&&s.charAt(4)=='('&&s.charAt(s.length()-1)==')')
-						{
-							int split=this.findComma(s);	
-							System.out.println(split);
-							System.out.println(s.substring(5,split));
-							System.out.println(s.substring(split+1,s.length()-1));
-							ComplexFunction complex=new ComplexFunction(Operation.Plus,helpComplexFunction(s.substring(5,split)),helpComplexFunction(s.substring(split+1,s.length()-1)));
-							return complex;
-						}
-						else
-							throw new RuntimeException("ERR the string is not a ComplexFunction");
-					}
-					case "none":
-					{
-						if(s.charAt(3)=='e'&&s.charAt(4)=='('&&s.charAt(s.length()-1)==')')
-						{
-							int split=this.findComma(s);	
-							System.out.println(split);
-							System.out.println(s.substring(5,split));
-							System.out.println(s.substring(split+1,s.length()-1));
-							if(s.substring(split+1,s.length()-1).isEmpty()) 
-							{
-								ComplexFunction complex=new ComplexFunction(Operation.None,helpComplexFunction(s.substring(5,split)),null);
-								return complex;
-							}
-							else
-								throw new RuntimeException("ERR the string is not a ComplexFunction");
-
-						}
-						else
-							throw new RuntimeException("ERR the string is not a ComplexFunction");
-					}
-					default :
-						throw new RuntimeException("ERR the string is not a ComplexFunction");
-				}
-			}
-			else
-				throw new RuntimeException("ERR the string is not a ComplexFunction");
 	}
 	//find the "split" place in the string for left and right 
 	private int findComma(String s)
@@ -232,7 +244,7 @@ public class ComplexFunction implements complex_function
 		int open=0;
 		int close=0;
 		int comma=0;
-		for(int i=5;i<s.length();i++)
+		for(int i=0;i<s.length();i++)
 		{
 			if(s.charAt(i)=='(')
 				open++;
@@ -248,31 +260,7 @@ public class ComplexFunction implements complex_function
 		return false;		
 	}
 	
-	public ComplexFunction(String s) 
-	{
-		if(s.length()>=5&&s.substring(0, 5).equals("f(x)=")&&this.parenthesisTest(s))
-		{
-			System.out.println(s.substring(5, s.length()));
-			ComplexFunction com=helpComplexFunction(s.substring(5,s.length()));
-			this.op=com.getOp();
-			this.left=com.left;
-			this.right=com.right;
-		}
-		else
-			throw new RuntimeException("ERR the string is not a ComplexFunction");
-	}
-	public ComplexFunction(Polynom p) 
-	{
-		this.left=p;
-		this.right=null;
-		this.op=Operation.None;
-	}
-	public ComplexFunction(Monom m) 
-	{
-		this.left=m;
-		this.right=null;
-		this.op=Operation.None;
-	}
+	
 	public double f(double x) 
 	{
 		double sum=0;
@@ -329,7 +317,6 @@ public class ComplexFunction implements complex_function
 			}
 		}
 	}
-
 
 	public function copy() 
 	{
@@ -395,5 +382,92 @@ public class ComplexFunction implements complex_function
 	{
 		return this.op;
 	}
+	public boolean equals(Object o)
+	{
+		if(o instanceof Polynom_able ) 
+		{
+			Polynom p=(Polynom)o;
+			double EPSILON = 0.01;
+			for(double x=-5;x<5;x+=EPSILON) 
+			{
+				if(Math.abs(this.f(x)-p.f(x))>0.0001)
+					return false;
+			}
+			for(int i=0;i<=5;i++) 
+			{
+				double x=Math.random()*100;
+				if(Math.abs(this.f(x)-p.f(x))>0.0001)
+					return false;
+			}
+			return true;
+		}
+		else if(o instanceof Monom)
+		{
+			if(this.right!=null)
+				return false;
+			if(this.op!=Operation.None)
+				return false;
+			Monom m=(Monom)o;
+			double EPSILON = 0.01;
+			for(double x=-5;x<5;x+=EPSILON) 
+			{
+				if(Math.abs(this.f(x)-m.f(x))>0.0001)
+					return false;
+			}
+			for(int i=0;i<=5;i++) 
+			{
+				double x=Math.random()*100;
+				if(Math.abs(this.f(x)-m.f(x))>0.0001)
+					return false;
+			}
+			return true;
+		}
+		else if(o instanceof ComplexFunction) 
+		{
+			ComplexFunction cf=(ComplexFunction)o;
+			double EPSILON = 0.01;
+
+			for(double x=-5;x<5;x+=EPSILON) 
+			{
+				if(Math.abs(this.f(x)-cf.f(x))>0.0001)
+					return false;
+			}
+			for(int i=0;i<=5;i++) 
+			{
+				double x=Math.random()*20;
+				System.out.println("****"+this.f(x));
+				System.out.println("*****"+cf.f(x));
+				if(Math.abs(this.f(x)-cf.f(x))>0.0001)
+					return false;
+			}
+			return true;
+		}
+		else
+			return false;
+	}
+	public String toString() 
+	{
+		if(this.op==Operation.Comp) {
+			return "comp("+this.left.toString()+","+this.right.toString()+")";
+		}
+		else if(this.op==Operation.Divid) {
+			return  "div("+this.left.toString()+","+this.right.toString()+")";
+		}
+		else if(this.op==Operation.Max) {
+			return "max("+this.left.toString()+","+this.right.toString()+")";
+		}
+		else if(this.op==Operation.Min) {
+			return "min("+this.left.toString()+","+this.right.toString()+")";
+		}
+		else if(this.op==Operation.None) {
+			return this.left.toString();
+		}
+		else if(this.op==Operation.Plus) {
+			return "plus("+this.left.toString()+","+this.right.toString()+")";
+		}
+		else //if(this.op==Operation.Times) 
+			return "mul("+this.left.toString()+","+this.right.toString()+")";
+	}
+
 
 }

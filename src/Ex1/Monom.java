@@ -273,13 +273,13 @@ public class Monom implements function
 				return false;
 			}
 		else
+			if((m1 instanceof ComplexFunction))
+			{
+				ComplexFunction cf=(ComplexFunction)m1;
+				return (cf.equals(this));
+			}
 			return false;
-		
-	}
-	// you may (always) add other methods.
-
-	//****************** Private Methods and Data *****************
-	
+	}	
 	/**
 	 * set the Corfficient as a
 	 * @param double a

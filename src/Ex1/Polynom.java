@@ -240,8 +240,13 @@ public class Polynom implements Polynom_able
 					return true;
 				return false;
 			}
-			return false;
-		
+			else
+				if(p instanceof ComplexFunction)
+				{
+					ComplexFunction cf=(ComplexFunction)p;
+					return (cf.equals(this));
+				}
+			return false; 
 	}
 	/**
 	 * Test if this is the Zero Polynom
