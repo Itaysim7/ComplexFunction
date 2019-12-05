@@ -2,9 +2,6 @@ package Ex1;
 
 import java.util.Comparator;
 
-import java.util.Iterator;
-
-import javax.management.RuntimeErrorException;
 
 
 /**
@@ -108,6 +105,7 @@ public class Monom implements function
 	 */
 	public Monom(String s)
 	{
+		s=s.replaceAll("\\s+","");
 		boolean conX=s.contains("x");
 		if(!conX) /*if the String isn't contains x,check if its legal double*/
 		{

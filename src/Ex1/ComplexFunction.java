@@ -13,7 +13,7 @@ public class ComplexFunction implements complex_function
 	}
 	public ComplexFunction( String op2,function left2, function right2) 
 	{
-		ComplexFunction temp=null;;
+		ComplexFunction temp=null;
 		switch(op2)
 		{
 			case "plus":
@@ -22,6 +22,7 @@ public class ComplexFunction implements complex_function
 				this.op=temp.getOp();
 				this.left=temp.left();
 				this.right=temp.right();
+				break;
 			}
 			case "mul":
 			{
@@ -29,6 +30,7 @@ public class ComplexFunction implements complex_function
 				this.op=temp.getOp();
 				this.left=temp.left();
 				this.right=temp.right();
+				break;
 			}
 			case "div":
 			{
@@ -36,6 +38,7 @@ public class ComplexFunction implements complex_function
 				this.op=temp.getOp();
 				this.left=temp.left();
 				this.right=temp.right();
+				break;
 			}
 			case "max":
 			{
@@ -43,6 +46,7 @@ public class ComplexFunction implements complex_function
 				this.op=temp.getOp();
 				this.left=temp.left();
 				this.right=temp.right();
+				break;
 			}
 			case "min": 
 			{
@@ -50,6 +54,7 @@ public class ComplexFunction implements complex_function
 				this.op=temp.getOp();
 				this.left=temp.left();
 				this.right=temp.right();
+				break;
 			}
 			case "comp":
 			{
@@ -57,15 +62,17 @@ public class ComplexFunction implements complex_function
 				this.op=temp.getOp();
 				this.left=temp.left();
 				this.right=temp.right();
+				break;
 			}
 			case "none":
 			{
 				if(right2==null) 
 				{
-					temp= new ComplexFunction(Operation.Max,left2,null);
+					temp= new ComplexFunction(Operation.None,left2,null);
 					this.op=temp.getOp();
 					this.left=temp.left();
 					this.right=temp.right();
+					break;
 				}
 				else
 					throw new RuntimeException("ERR for none f2 must be null ");

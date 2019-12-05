@@ -2,6 +2,7 @@ package Ex1;
 
 import java.util.ArrayList;
 
+
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.function.Predicate;
@@ -33,6 +34,7 @@ public class Polynom implements Polynom_able
 	 */
 	public Polynom(String s) 
 	{
+		s=s.replaceAll("\\s+","");
 		poly=new ArrayList<Monom>() ;
 		int i=0;
 		int start=i;

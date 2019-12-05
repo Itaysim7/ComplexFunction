@@ -1,13 +1,12 @@
 package Ex1Testing;
 
 import static org.junit.Assert.assertArrayEquals;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -21,14 +20,6 @@ public class PolynomTest
 	Polynom p0,p1,p2,p3,p4;
 	Polynom [] pol;
 	String[] monoms=new String[3];
-
-	@BeforeAll
-	public static void setUpBeforeClass() throws Exception {
-	}
-
-	@AfterAll
-	public static void tearDownAfterClass() throws Exception {
-	}
 
 	@BeforeEach
 	public void setUp() throws Exception 
@@ -245,9 +236,5 @@ public class PolynomTest
 		assertEquals("+1.0",pol[4].toString());
 	}
 
-//	@Test
-//	public void testInitFromString() {
-//		fail("Not yet implemented");
-//	}
 
 }

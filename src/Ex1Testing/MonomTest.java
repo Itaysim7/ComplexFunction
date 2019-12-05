@@ -1,12 +1,11 @@
 package Ex1Testing;
 
 import static org.junit.Assert.*;
+
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import Ex1.Monom;
@@ -17,15 +16,6 @@ public class MonomTest
 
 	Monom m0,m1,m2,m3,m4;
 	Monom [] mon;
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception 
-	{
-		
-	}
-
-	@AfterClass
-	public static void tearDownAfterClass() throws Exception {
-	}
 
 	@Before
 	public void setUp() throws Exception 
@@ -156,10 +146,10 @@ public class MonomTest
 	public void testToString() 
 	{
 		assertEquals("0",mon[0].toString());
-		assertEquals("1.0x",mon[1].toString());
-		assertEquals("3.0",mon[2].toString());
+		assertEquals("+1.0x",mon[1].toString());
+		assertEquals("+3.0",mon[2].toString());
 		assertEquals("-2.5x^2",mon[3].toString());
-		assertEquals("3.0x^4",mon[4].toString());
+		assertEquals("+3.0x^4",mon[4].toString());
 	}
 	@Test
 	public void testEqualsMonom()
