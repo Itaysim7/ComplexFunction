@@ -2,7 +2,6 @@ package Ex1;
 
 import java.awt.Color;
 
-import java.awt.Font;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -13,7 +12,6 @@ import java.util.Collection;
 import java.util.Iterator;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonParseException;
 import com.google.gson.JsonSyntaxException;
 
 import java.io.PrintWriter;
@@ -25,7 +23,6 @@ import java.io.PrintWriter;
  */
 public class Functions_GUI implements functions 
 {
-	private static final Color[] Colors = null;
 	private ArrayList <function> f;
 	
 	public Functions_GUI() 
@@ -37,21 +34,29 @@ public class Functions_GUI implements functions
 	 * @param file - the file name
 	 * @throws IOException if the file does not exists of unreadable (wrong format)
 	 */
-	public void initFromFile(String file) throws IOException
+	public void initFromFile(String file)
 	{
-			FileReader fr = new FileReader(file);
-			BufferedReader br = new BufferedReader(fr);
-			ArrayList <function> temp=new ArrayList<function>();
-			String lineReader;
-			lineReader=br.readLine();
-			while(lineReader!=null) 
-			{
-				temp.add(new ComplexFunction(lineReader));
+			try 
+			{ 
+				FileReader fr = new FileReader(file); 
+				BufferedReader br = new BufferedReader(fr);
+			//	ArrayList <function> temp=new ArrayList<function>();
+				String lineReader;
 				lineReader=br.readLine();
+				while(lineReader!=null) 
+				{
+
+						this.f.add(new ComplexFunction(lineReader));
+						lineReader=br.readLine();
+				}
+			//	this.f=temp;
+				br.close();
+				fr.close();   
 			}
-			this.f=temp;
-			br.close();
-			fr.close();
+			catch(Exception e)
+			{  
+				System.err.print("Error reading file\n" +e.getMessage());
+			}
 	}
 	/**
 	 * 
@@ -60,12 +65,20 @@ public class Functions_GUI implements functions
 	 */
 	public void saveToFile(String file) throws IOException
 	{
+		try 
+		{
 			FileWriter fw = new FileWriter(file);
 			PrintWriter outs = new PrintWriter(fw);
 			for(int i=0;i<f.size();i++) 
 				outs.println(f.get(i).toString());
 			outs.close(); 
-			fw.close();
+			fw.close();	
+		}
+		catch(IOException e)
+		{  
+			System.err.print("Error file is not writable\n" +e.getMessage());
+		}
+			
 	}
 	/**
 	 * Draws all the functions in the collection in a GUI window using the
@@ -83,15 +96,19 @@ public class Functions_GUI implements functions
 		StdDraw.setXscale(rx.get_min(),rx.get_max());		// rescale the coordinate system
 		StdDraw.setYscale(ry.get_min(),ry.get_max());		// rescale the coordinate system
 		double rangex=Math.abs(rx.get_max())+Math.abs(rx.get_min());
-		StdDraw.setPenColor(Color.LIGHT_GRAY);
-		for (int j = (int) rx.get_min(); j <= rx.get_max(); j++)
-		{		// vertical lines
-			StdDraw.line(j, ry.get_min(), j, ry.get_max());
-		}
-		for (double i = ry.get_min(); i <= ry.get_max(); i=i+1)
-		{		// horizontal lines
-			StdDraw.line(rx.get_min(), i,rx.get_max(), i);
-		}
+		double rangey=Math.abs(ry.get_max())+Math.abs(ry.get_min());
+		if(rangex<31&&rangey<31)
+		{
+			StdDraw.setPenColor(Color.LIGHT_GRAY);
+			for (int j = (int) rx.get_min(); j <= rx.get_max(); j++)
+			{		// vertical lines
+				StdDraw.line(j, ry.get_min(), j, ry.get_max());
+			}
+			for (double i = ry.get_min(); i <= ry.get_max(); i=i+1)
+			{		// horizontal lines
+				StdDraw.line(rx.get_min(), i,rx.get_max(), i);
+			}
+		}	
 		StdDraw.setPenColor(Color.BLACK);
 		StdDraw.setPenRadius(0.01);
 		StdDraw.line(rx.get_min(), 0,rx.get_max(),0);// y axis
@@ -141,20 +158,20 @@ public class Functions_GUI implements functions
 					Range ry=new Range(graph.Range_Y[0],graph.Range_Y[1]);
 					this.drawFunctions(graph.Width, graph.Height, rx, ry, graph.Resolution);
 				}
-				else
+				else//default value
 					this.drawFunctions(512, 512, new Range(-10,10), new Range(-10,10), 100);
 				
 			}
-			catch(NullPointerException e)
+			catch(NullPointerException e)//default value
 			{
 				this.drawFunctions(512, 512, new Range(-10,10), new Range(-10,10), 100);
 			}			
 		} 
-		catch ( FileNotFoundException e) 
+		catch ( FileNotFoundException e) //default value
 		{
 			this.drawFunctions(512, 512, new Range(-10,10), new Range(-10,10), 100);
 		}
-		catch ( JsonSyntaxException  e) 
+		catch ( JsonSyntaxException  e) //default value
 		{
 			this.drawFunctions(512, 512, new Range(-10,10), new Range(-10,10), 100);
 		}
