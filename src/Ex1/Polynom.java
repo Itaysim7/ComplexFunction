@@ -3,6 +3,7 @@ package Ex1;
 import java.util.ArrayList;
 
 
+
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.function.Predicate;
@@ -344,7 +345,6 @@ public class Polynom implements Polynom_able
 	}
 	/**
 	 * @return an Iterator (of Monoms) over this Polynom
-	 * 
 	 */
 	public Iterator<Monom> iteretor()
 	{
@@ -353,8 +353,7 @@ public class Polynom implements Polynom_able
 		return iter1;
 	}
 	/**
-	 * @return a string that represent this Polynom
-	 * 
+	 * @return a string that represent this Polynom 
 	 */
 	public String toString()
 	{
@@ -369,7 +368,10 @@ public class Polynom implements Polynom_able
 		}
 		return p;
 	}
-	@Override
+	/**
+	 * @return a function type of polynom that Initialized from string
+	 * @param String s
+	 */
 	public function initFromString(String s) 
 	{
 		function p=new Polynom(s);

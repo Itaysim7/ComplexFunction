@@ -1,6 +1,7 @@
 package Ex1;
 
 import java.awt.Color;
+
 import java.awt.Font;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -12,18 +13,20 @@ import java.util.Collection;
 import java.util.Iterator;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonSyntaxException;
 
 import java.io.PrintWriter;
-//import org.json.simple.JSONArray;
-//import org.json.simple.JSONObject;
-//import org.json.simple.parser.JSONParser;
-//import org.json.simple.parser.ParseException;
 
-
+/**
+ * This class represents a collection of mathematical functions  
+ * which can be presented on a GUI window and can be saved (and load) to file. 
+ *
+ */
 public class Functions_GUI implements functions 
 {
+	private static final Color[] Colors = null;
 	private ArrayList <function> f;
-	
 	
 	public Functions_GUI() 
 	{
@@ -55,7 +58,8 @@ public class Functions_GUI implements functions
 	 * @param file - the file name
 	 * @throws IOException if the file is not writable
 	 */
-	public void saveToFile(String file) throws IOException{
+	public void saveToFile(String file) throws IOException
+	{
 			FileWriter fw = new FileWriter(file);
 			PrintWriter outs = new PrintWriter(fw);
 			for(int i=0;i<f.size();i++) 
@@ -74,6 +78,7 @@ public class Functions_GUI implements functions
 	 */
 	public void drawFunctions(int width, int height, Range rx, Range ry, int resolution)
 	{
+		Color[] colors= {Color.blue,Color.cyan,Color.darkGray,Color.gray,Color.green,Color.magenta,Color.orange,Color.pink};
 		StdDraw.setCanvasSize(width, height);
 		StdDraw.setXscale(rx.get_min(),rx.get_max());		// rescale the coordinate system
 		StdDraw.setYscale(ry.get_min(),ry.get_max());		// rescale the coordinate system
@@ -93,6 +98,7 @@ public class Functions_GUI implements functions
 		StdDraw.line(0, ry.get_min(),0, ry.get_max());	// x axis
 		double[] x = new double[resolution+1];
 		double[] y = new double[resolution+1];
+		int color=0;
 		for(int i=0;i<f.size();i++)
 		{
 			for (int j = 0; j <= resolution; j++) // sampled at resolution points in the y value of the function in the array  for rx range
@@ -100,13 +106,16 @@ public class Functions_GUI implements functions
 				  x[j] = rx.get_min()+j*rangex/resolution;
 				  y[j] = this.f.get(i).f(x[j]);
 			}
-			StdDraw.setPenColor(Color.red);
+			StdDraw.setPenColor(colors[i]);
 			StdDraw.setPenRadius(0.005);
+			if(color==8)
+				color=0;
 			// plot the approximation to the function
 			for (int j = 0; j < resolution; j++)
 			{
 				StdDraw.line(x[j], y[j], x[j+1], y[j+1]);
 			}
+			color++;		
 		}
 	}
 	/**
@@ -118,18 +127,38 @@ public class Functions_GUI implements functions
 	{
 		
 		Gson gson = new Gson();
-		try 
+		try
 		{
 			FileReader reader = new FileReader(json_file);
 			Graph graph = gson.fromJson(reader,Graph.class);
-			Range rx=new Range(graph.Range_X[0],graph.Range_X[1]);
-			Range ry=new Range(graph.Range_Y[0],graph.Range_Y[1]);
-			this.drawFunctions(graph.Width, graph.Height, rx, ry, graph.Resolution);
+			try
+			{
+				double totalx=Math.abs(graph.Range_X[0])+Math.abs(graph.Range_X[1]);
+				double totaly=Math.abs(graph.Range_Y[0])+Math.abs(graph.Range_Y[1]);
+				if(graph.Height>0&&graph.Width>0&&graph.Resolution>0&&totalx!=0&&totaly!=0)
+				{
+					Range rx=new Range(graph.Range_X[0],graph.Range_X[1]);
+					Range ry=new Range(graph.Range_Y[0],graph.Range_Y[1]);
+					this.drawFunctions(graph.Width, graph.Height, rx, ry, graph.Resolution);
+				}
+				else
+					this.drawFunctions(512, 512, new Range(-10,10), new Range(-10,10), 100);
+				
+			}
+			catch(NullPointerException e)
+			{
+				this.drawFunctions(512, 512, new Range(-10,10), new Range(-10,10), 100);
+			}			
 		} 
-		catch (FileNotFoundException e) {
-			e.printStackTrace();
+		catch ( FileNotFoundException e) 
+		{
+			this.drawFunctions(512, 512, new Range(-10,10), new Range(-10,10), 100);
 		}
-	
+		catch ( JsonSyntaxException  e) 
+		{
+			this.drawFunctions(512, 512, new Range(-10,10), new Range(-10,10), 100);
+		}
+		
 	}	
 	public function get(int i) 
 	{

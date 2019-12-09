@@ -1,21 +1,37 @@
 package Ex1;
-
+/**
+ * This class represents a complex function of shape operation(f(x),g(x)) ,the operation is an enom that contains {Plus, Times, Divid, Max, Min, Comp , None, Error}
+ *  the functions can be Monom, Polynom or ComplexFunction.  
+ * The class implements complex_function and support simple operations as: construction, value at x, plus,multiply,divide,min,max and comp
+ * @author itay and lilach
+ *
+ */
 public class ComplexFunction implements complex_function
 {
 	private function right;
 	private function left;
 	private Operation op;
+	
+	/**
+	 * Initialized a ComplexFunction given Operation function left and right
+	 * @param Operation op2,function left2, function right2
+	 */
 	public ComplexFunction( Operation op2,function left2, function right2) 
 	{
 		this.left=left2;
 		this.right=right2;
 		this.op=op2;
 	}
+	/**
+	 * Initialized a ComplexFunction given string function left and right
+	 * op2 is a string that represent Operation
+	 * @param String op2,function left2, function right2
+	 */
 	public ComplexFunction( String op2,function left2, function right2) 
 	{
 		ComplexFunction temp=null;
 		switch(op2)
-		{
+		{//case for each operation
 			case "plus":
 			{
 				temp= new ComplexFunction(Operation.Plus,left2,right2);
@@ -67,7 +83,7 @@ public class ComplexFunction implements complex_function
 			case "none":
 			{
 				if(right2==null) 
-				{
+				{//if its none so there is just a left function
 					temp= new ComplexFunction(Operation.None,left2,null);
 					this.op=temp.getOp();
 					this.left=temp.left();
@@ -83,19 +99,25 @@ public class ComplexFunction implements complex_function
 			}
 		}
 	}
-	
+	/**
+	 * Initialized a ComplexFunction given function, the type of the complex function will be none(f,)
+	 * @param function f
+	 */
 	public ComplexFunction(function f) 
 	{
 		this.left=f;
 		this.right=null;
 		this.op=Operation.None;
 	}
-	
+	/**
+	 * Initialized a ComplexFunction given string
+	 * @param String s
+	 */
 	public ComplexFunction(String s) 
 	{
-		if(this.parenthesisTest(s))
+		if(this.parenthesisTest(s))//check if the structure of the parenthesis and comma is legal
 		{
-			s=s.replaceAll("\\s+","");
+			s=s.replaceAll("\\s+","");//delete all the spacing
 			char c=s.charAt(0);
 			if(c!='m'&&c!='c'&&c!='d'&&c!='n'&&c!='p')//if its not a complex function
 			{
@@ -224,12 +246,19 @@ public class ComplexFunction implements complex_function
 		else
 			throw new RuntimeException("ERR the string is not a ComplexFunction");
 	}
+	/**
+	 * @return a function type of complexfunction that Initialized from string
+	 * @param String s
+	 */
 	public function initFromString(String s) 
 	{
 		function f=new ComplexFunction(s);
 		return f;
 	}
-	//find the "split" place in the string for left and right 
+	/**
+	 * @return the "split" place in the string for function left and  function right
+	 * @param String s
+	 */
 	private int findComma(String s)
 	{
 		int open=0;
@@ -240,12 +269,15 @@ public class ComplexFunction implements complex_function
 				open++;
 			if(s.charAt(i)==',')
 				comma++;
-			if(comma==open&&comma!=0)
+			if(comma==open&&comma!=0)//the first place in the string that comma and open are equals and different from zero
 				return i;
 		}
 		return -1;
 	}
-	//check if the structure of parenthesis and comma in the string is legal 
+	/**
+	 * @return true if the structure of parenthesis and comma in the string is legal
+	 * @param String s
+	 */
 	private boolean parenthesisTest(String s) 
 	{
 		int open=0;
@@ -259,14 +291,17 @@ public class ComplexFunction implements complex_function
 				close++;
 			if(s.charAt(i)==',')
 				comma++;
-			if(comma>open||close>comma)
+			if(comma>open||close>comma)//the structure is illegal
 				return false;
 		}
-		if(open==close&&open==comma)
+		if(open==close&&open==comma)//if the string is legal the number of the open and close parenthesis and comma is equals
 			return true;
 		return false;		
 	}
-	
+	/**
+	 * @return the value of function f at x
+	 * @param double x
+	 */
 	
 	public double f(double x) 
 	{
@@ -285,13 +320,13 @@ public class ComplexFunction implements complex_function
 			}
 			case Divid:
 			{
-				if(this.right.f(x)!=0)
-				{
+//				if(this.right.f(x)!=0) //if the denominator is 0 its not a legal operation
+//				{
 					sum=this.left.f(x)/this.right.f(x);
 					return sum;
-				}
-				else
-					throw new RuntimeException("ERR denominator was set to 0");
+//				}
+//				else
+//					throw new RuntimeException("ERR denominator was set to 0");
 			}
 			case Max:
 			{
@@ -324,12 +359,20 @@ public class ComplexFunction implements complex_function
 			}
 		}
 	}
-
+	/**
+	 * create function from the complexfunction(deep copy)
+	 * @return function
+	 */
 	public function copy() 
 	{
 		function temp=new ComplexFunction(this.toString());
 		return temp;
 	}
+	/**
+	 * change the structure of the complex function f1 will be the right function
+	 * and the previous one will be the left function,the operation will change to plus
+	 * @param function f1
+	 */
 	public void plus(function f1) 
 	{
 		ComplexFunction temp=new ComplexFunction(this.op,this.left,this.right);
@@ -337,6 +380,11 @@ public class ComplexFunction implements complex_function
 		this.right=f1;
 		op=Operation.Plus;
 	}
+	/**
+	 * change the structure of the complex function f1 will be the right function
+	 * and the previous one will be the left function,the operation will change to mul
+	 * @param function f1
+	 */
 	public void mul(function f1) 
 	{
 		ComplexFunction temp=new ComplexFunction(this.op,this.left,this.right);
@@ -344,6 +392,11 @@ public class ComplexFunction implements complex_function
 		this.right=f1;
 		op=Operation.Times;
 	}
+	/**
+	 * change the structure of the complex function f1 will be the right function
+	 * and the previous one will be the left function,the operation will change to div
+	 * @param function f1
+	 */
 	public void div(function f1) 
 	{
 		ComplexFunction temp=new ComplexFunction(this.op,this.left,this.right);
@@ -351,6 +404,11 @@ public class ComplexFunction implements complex_function
 		this.right=f1;
 		op=Operation.Divid;
 	}
+	/**
+	 * change the structure of the complex function f1 will be the right function
+	 * and the previous one will be the left function,the operation will change to max
+	 * @param function f1
+	 */
 	public void max(function f1) 
 	{
 		ComplexFunction temp=new ComplexFunction(this.op,this.left,this.right);
@@ -358,6 +416,11 @@ public class ComplexFunction implements complex_function
 		this.right=f1;
 		op=Operation.Max;
 	}
+	/**
+	 * change the structure of the complex function f1 will be the right function
+	 * and the previous one will be the left function,the operation will change to min
+	 * @param function f1
+	 */
 	public void min(function f1)
 	{
 		ComplexFunction temp=new ComplexFunction(this.op,this.left,this.right);
@@ -365,6 +428,11 @@ public class ComplexFunction implements complex_function
 		this.right=f1;
 		op=Operation.Min;
 	}
+	/**
+	 * change the structure of the complex function f1 will be the right function
+	 * and the previous one will be the left function,the operation will change to comp
+	 * @param function f1
+	 */
 	public void comp(function f1)
 	{
 		ComplexFunction temp=new ComplexFunction(this.op,this.left,this.right);
@@ -372,10 +440,16 @@ public class ComplexFunction implements complex_function
 		this.right=f1;
 		op=Operation.Comp;
 	}
+	/**
+	 * @return the left function
+	 */
 	public function left() 
 	{
 		return this.left;
 	}
+	/**
+	 * @return the rigth function
+	 */
 	public function right() 
 	{
 		if(this.right!=null)
@@ -385,22 +459,30 @@ public class ComplexFunction implements complex_function
 		else 
 			return null;
 	}
+	/**
+	 * @return the Operation
+	 */
 	public Operation getOp() 
 	{
 		return this.op;
 	}
+	/**
+	 * Test if this complexfunction is logically equals to Object o.
+	 * @param Monom m
+	 * @return true if this Monom  represents the same function as object o
+	 */
 	public boolean equals(Object o)
 	{
 		if(o instanceof Polynom_able ) 
 		{
 			Polynom p=(Polynom)o;
 			double EPSILON = 0.01;
-			for(double x=-5;x<5;x+=EPSILON) 
+			for(double x=-5;x<5;x+=EPSILON) //check from -5 to 5 if the function are equals by epsilon
 			{
 				if(Math.abs(this.f(x)-p.f(x))>0.0001)
 					return false;
 			}
-			for(int i=0;i<=5;i++) 
+			for(int i=0;i<=5;i++) //check if the function are equals at 5 random numbers
 			{
 				double x=Math.random()*100;
 				if(Math.abs(this.f(x)-p.f(x))>0.0001)
@@ -416,12 +498,12 @@ public class ComplexFunction implements complex_function
 				return false;
 			Monom m=(Monom)o;
 			double EPSILON = 0.01;
-			for(double x=-5;x<5;x+=EPSILON) 
+			for(double x=-5;x<5;x+=EPSILON) //check from -5 to 5 if the function are equals by epsilon
 			{
 				if(Math.abs(this.f(x)-m.f(x))>0.0001)
 					return false;
 			}
-			for(int i=0;i<=5;i++) 
+			for(int i=0;i<=5;i++) //check if the function are equals at 5 random numbers
 			{
 				double x=Math.random()*100;
 				if(Math.abs(this.f(x)-m.f(x))>0.0001)
@@ -434,14 +516,14 @@ public class ComplexFunction implements complex_function
 			ComplexFunction cf=(ComplexFunction)o;
 			double EPSILON = 0.01;
 
-			for(double x=-5;x<5;x+=EPSILON) 
+			for(double x=-5;x<5;x+=EPSILON) //check from -5 to 5 if the function are equals by epsilon
 			{
 				if(Math.abs(this.f(x)-cf.f(x))>0.0001)
 					return false;
 			}
-			for(int i=0;i<=5;i++) 
+			for(int i=0;i<=5;i++) //check if the function are equals at 5 random numbers
 			{
-				double x=Math.random()*20;
+				double x=Math.random()*100;
 				System.out.println("****"+this.f(x));
 				System.out.println("*****"+cf.f(x));
 				if(Math.abs(this.f(x)-cf.f(x))>0.0001)
@@ -452,6 +534,10 @@ public class ComplexFunction implements complex_function
 		else
 			return false;
 	}
+	/**
+	 * @return a string that represent this complexfunction
+	 * 
+	 */
 	public String toString() 
 	{
 		if(this.op==Operation.Comp) {

@@ -300,7 +300,11 @@ public class Monom implements function
 	{
 		return new Monom(ZERO);
 	}
-	public function initFromString(String s)//********
+	/**
+	 * @return a function type of Monom that Initialized from string
+	 * @param String s
+	 */
+	public function initFromString(String s)
 	{
 		function f=new Monom(s);
 		return f;
