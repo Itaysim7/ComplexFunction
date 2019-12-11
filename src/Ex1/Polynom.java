@@ -98,12 +98,13 @@ public class Polynom implements Polynom_able
 		return -1;
 	}
 	/**
-	 * Add Monom m1 to this Polynom
-	 * @param Monom m1
+	 * Add Monom m to this Polynom
+	 * @param Monom m
 	 */
-	public void add(Monom m1)
+	public void add(Monom m)
 	{
 		// The method add the Monom to the Polynom
+		Monom m1=new Monom(m.toString());
 		int exist=this.containsPower(m1.get_power());
 		if(exist==(-1))//if the Polynom isn't contain the power of m1
 		{
@@ -130,8 +131,8 @@ public class Polynom implements Polynom_able
 	public void add(Polynom_able p1)
 	{
 		// The method add the Monom to the Polynom
-		
-		Iterator<Monom> iter1=p1.iteretor();
+		Polynom_able p2=new Polynom(p1.toString());
+		Iterator<Monom> iter1=p2.iteretor();
 		while(iter1.hasNext())	
 		{
 			this.add(iter1.next());
@@ -357,7 +358,6 @@ public class Polynom implements Polynom_able
 	 */
 	public String toString()
 	{
-		//The method print the Polynom
 		Collections.sort(poly,new Monom_Comperator());//sort the Polynom
 		if(poly.size()==0)
 			return "0";
@@ -369,7 +369,7 @@ public class Polynom implements Polynom_able
 		return p;
 	}
 	/**
-	 * @return a function type of polynom that Initialized from string
+	 * @return a function type of polynom that  an new function type of polynom Initialized from string
 	 * @param String s
 	 */
 	public function initFromString(String s) 

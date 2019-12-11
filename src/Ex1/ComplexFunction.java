@@ -18,9 +18,21 @@ public class ComplexFunction implements complex_function
 	 */
 	public ComplexFunction( Operation op2,function left2, function right2) 
 	{
-		this.left=left2;
-		this.right=right2;
-		this.op=op2;
+		if(right2!=null&&op2!=Operation.None)
+		{
+			this.left=left2;
+			this.right=right2;
+			this.op=op2;		
+		}
+		else
+			if(op2==Operation.None&&right2==null)
+			{
+				this.left=left2;
+				this.right=null;
+				this.op=op2;
+			}
+			else
+				throw new RuntimeException("ERR right function can't be null if the Operation is diffrent from none");
 	}
 	/**
 	 * Initialized a ComplexFunction given string function left and right
@@ -247,7 +259,7 @@ public class ComplexFunction implements complex_function
 			throw new RuntimeException("ERR the string is not a ComplexFunction");
 	}
 	/**
-	 * @return a function type of complexfunction that Initialized from string
+	 * @return a function that create a complexfunction from string
 	 * @param String s
 	 */
 	public function initFromString(String s) 
@@ -302,12 +314,11 @@ public class ComplexFunction implements complex_function
 	 * @return the value of function f at x
 	 * @param double x
 	 */
-	
 	public double f(double x) 
 	{
 		double sum=0;
 		switch(this.op)
-		{
+		{ //Recursively check for each action
 			case Plus:
 			{
 				sum=this.left.f(x)+this.right.f(x);
@@ -320,13 +331,8 @@ public class ComplexFunction implements complex_function
 			}
 			case Divid:
 			{
-//				if(this.right.f(x)!=0) //if the denominator is 0 its not a legal operation
-//				{
 					sum=this.left.f(x)/this.right.f(x);
 					return sum;
-//				}
-//				else
-//					throw new RuntimeException("ERR denominator was set to 0");
 			}
 			case Max:
 			{
@@ -376,9 +382,19 @@ public class ComplexFunction implements complex_function
 	public void plus(function f1) 
 	{
 		ComplexFunction temp=new ComplexFunction(this.op,this.left,this.right);
-		this.left=temp;
-		this.right=f1;
-		op=Operation.Plus;
+		if(this==f1)
+		{
+			ComplexFunction copy=(ComplexFunction) f1.copy();
+			this.left=temp;
+			op=Operation.Plus;
+			this.right=copy;
+		}
+		else
+		{
+			this.left=temp;
+			op=Operation.Plus;
+			this.right=f1;
+		}
 	}
 	/**
 	 * change the structure of the complex function f1 will be the right function
@@ -388,9 +404,20 @@ public class ComplexFunction implements complex_function
 	public void mul(function f1) 
 	{
 		ComplexFunction temp=new ComplexFunction(this.op,this.left,this.right);
-		this.left=temp;
-		this.right=f1;
-		op=Operation.Times;
+		if(this==f1)
+		{
+			ComplexFunction copy=(ComplexFunction) f1.copy();
+			this.left=temp;
+			op=Operation.Times;
+			this.right=copy;
+		}
+		else
+		{
+			this.left=temp;
+			op=Operation.Times;
+			this.right=f1;
+		}
+
 	}
 	/**
 	 * change the structure of the complex function f1 will be the right function
@@ -400,9 +427,19 @@ public class ComplexFunction implements complex_function
 	public void div(function f1) 
 	{
 		ComplexFunction temp=new ComplexFunction(this.op,this.left,this.right);
-		this.left=temp;
-		this.right=f1;
-		op=Operation.Divid;
+		if(this==f1)
+		{
+			ComplexFunction copy=(ComplexFunction) f1.copy();
+			this.left=temp;
+			op=Operation.Divid;
+			this.right=copy;
+		}
+		else
+		{
+			this.left=temp;
+			op=Operation.Divid;
+			this.right=f1;
+		}
 	}
 	/**
 	 * change the structure of the complex function f1 will be the right function
@@ -412,9 +449,19 @@ public class ComplexFunction implements complex_function
 	public void max(function f1) 
 	{
 		ComplexFunction temp=new ComplexFunction(this.op,this.left,this.right);
-		this.left=temp;
-		this.right=f1;
-		op=Operation.Max;
+		if(this==f1)
+		{
+			ComplexFunction copy=(ComplexFunction) f1.copy();
+			this.left=temp;
+			op=Operation.Max;
+			this.right=copy;
+		}
+		else
+		{
+			this.left=temp;
+			op=Operation.Max;
+			this.right=f1;
+		}
 	}
 	/**
 	 * change the structure of the complex function f1 will be the right function
@@ -424,9 +471,19 @@ public class ComplexFunction implements complex_function
 	public void min(function f1)
 	{
 		ComplexFunction temp=new ComplexFunction(this.op,this.left,this.right);
-		this.left=temp;
-		this.right=f1;
-		op=Operation.Min;
+		if(this==f1)
+		{
+			ComplexFunction copy=(ComplexFunction) f1.copy();
+			this.left=temp;
+			op=Operation.Min;
+			this.right=copy;
+		}
+		else
+		{
+			this.left=temp;
+			op=Operation.Min;
+			this.right=f1;
+		}
 	}
 	/**
 	 * change the structure of the complex function f1 will be the right function
@@ -436,9 +493,19 @@ public class ComplexFunction implements complex_function
 	public void comp(function f1)
 	{
 		ComplexFunction temp=new ComplexFunction(this.op,this.left,this.right);
-		this.left=temp;
-		this.right=f1;
-		op=Operation.Comp;
+		if(this==f1)
+		{
+			ComplexFunction copy=(ComplexFunction) f1.copy();
+			this.left=temp;
+			op=Operation.Comp;
+			this.right=copy;
+		}
+		else
+		{
+			this.left=temp;
+			op=Operation.Comp;
+			this.right=f1;
+		}
 	}
 	/**
 	 * @return the left function
@@ -448,7 +515,7 @@ public class ComplexFunction implements complex_function
 		return this.left;
 	}
 	/**
-	 * @return the rigth function
+	 * @return the right function
 	 */
 	public function right() 
 	{
@@ -467,9 +534,10 @@ public class ComplexFunction implements complex_function
 		return this.op;
 	}
 	/**
-	 * Test if this complexfunction is logically equals to Object o.
-	 * @param Monom m
-	 * @return true if this Monom  represents the same function as object o
+	 * Test if this complexfunction is logically equals to Object o, The test is not completely correct,
+	 *  it checks if between 10 to 10 the functions are logically equals and for 5 random values 
+	 * @param Object o
+	 * @return true if this complexfunction  represents the same function as object o
 	 */
 	public boolean equals(Object o)
 	{
@@ -524,8 +592,6 @@ public class ComplexFunction implements complex_function
 			for(int i=0;i<=5;i++) //check if the function are equals at 5 random numbers
 			{
 				double x=Math.random()*100;
-				System.out.println("****"+this.f(x));
-				System.out.println("*****"+cf.f(x));
 				if(Math.abs(this.f(x)-cf.f(x))>0.0001)
 					return false;
 			}
@@ -561,6 +627,4 @@ public class ComplexFunction implements complex_function
 		else //if(this.op==Operation.Times) 
 			return "mul("+this.left.toString()+","+this.right.toString()+")";
 	}
-
-
 }

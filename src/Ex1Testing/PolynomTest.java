@@ -221,7 +221,6 @@ public class PolynomTest
 		for(int i=0;i<pol.length;i++) 
 		{
 			actualArr[i]=pol[i].area(-1,1,0.01);
-			System.out.println(actualArr[i]);
 			assertEquals("testing f:",expectedArr[i],actualArr[i],0.01);
 		}
 	}

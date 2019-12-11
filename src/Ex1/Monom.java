@@ -247,12 +247,12 @@ public class Monom implements function
 	}
 	/**
 	 * Test if this Monom is logically equals to Monom m.
-	 * @param Monom m
-	 * @return true if this Monom  represents the same function as Monom m
+	 * @param Object m1
+	 * @return true if this Monom  represents the same function as Object m1
 	 */
 	public boolean equals(Object m1)
 	{
-		if(m1 instanceof Monom) 
+		if(m1 instanceof Monom)  //if object is from type of Monom
 		{
 			Monom m=(Monom)m1;
 			if(this._coefficient==m.get_coefficient()&&this._coefficient==0)
@@ -264,14 +264,14 @@ public class Monom implements function
 			}
 		}
 		else
-			if(m1 instanceof Polynom_able) 
+			if(m1 instanceof Polynom_able) //if object is from type of Polynom_able
 			{
 				if(m1.toString().equals(this.toString()))
 					return true;
 				return false;
 			}
 		else
-			if((m1 instanceof ComplexFunction))
+			if((m1 instanceof ComplexFunction)) //if object is from type of ComplexFunction
 			{
 				ComplexFunction cf=(ComplexFunction)m1;
 				return (cf.equals(this));

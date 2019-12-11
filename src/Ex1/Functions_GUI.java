@@ -40,7 +40,6 @@ public class Functions_GUI implements functions
 			{ 
 				FileReader fr = new FileReader(file); 
 				BufferedReader br = new BufferedReader(fr);
-			//	ArrayList <function> temp=new ArrayList<function>();
 				String lineReader;
 				lineReader=br.readLine();
 				while(lineReader!=null) 
@@ -49,14 +48,19 @@ public class Functions_GUI implements functions
 						this.f.add(new ComplexFunction(lineReader));
 						lineReader=br.readLine();
 				}
-			//	this.f=temp;
 				br.close();
 				fr.close();   
 			}
-			catch(Exception e)
-			{  
-				System.err.print("Error reading file\n" +e.getMessage());
-			}
+	        catch (IOException e) //for case of not exist file
+	        {
+	        	e.printStackTrace();
+	            System.out.println("file does not exists");
+	        }
+	        catch (RuntimeException e) //for case of unreadable file
+	        {
+	            e.printStackTrace();
+	            System.out.println("file unreadable");
+	        }
 	}
 	/**
 	 * 
@@ -76,9 +80,9 @@ public class Functions_GUI implements functions
 		}
 		catch(IOException e)
 		{  
-			System.err.print("Error file is not writable\n" +e.getMessage());
+            e.printStackTrace();
+            System.out.println("Error file is not writable\\n");
 		}
-			
 	}
 	/**
 	 * Draws all the functions in the collection in a GUI window using the
@@ -97,7 +101,7 @@ public class Functions_GUI implements functions
 		StdDraw.setYscale(ry.get_min(),ry.get_max());		// rescale the coordinate system
 		double rangex=Math.abs(rx.get_max())+Math.abs(rx.get_min());
 		double rangey=Math.abs(ry.get_max())+Math.abs(ry.get_min());
-		if(rangex<31&&rangey<31)
+		if(rangex<31&&rangey<31) //if the range is not too big draw vertical and horizontal lines
 		{
 			StdDraw.setPenColor(Color.LIGHT_GRAY);
 			for (int j = (int) rx.get_min(); j <= rx.get_max(); j++)
@@ -123,15 +127,16 @@ public class Functions_GUI implements functions
 				  x[j] = rx.get_min()+j*rangex/resolution;
 				  y[j] = this.f.get(i).f(x[j]);
 			}
-			StdDraw.setPenColor(colors[i]);
+			StdDraw.setPenColor(colors[color]);
 			StdDraw.setPenRadius(0.005);
 			if(color==8)
 				color=0;
 			// plot the approximation to the function
 			for (int j = 0; j < resolution; j++)
 			{
-				StdDraw.line(x[j], y[j], x[j+1], y[j+1]);
+				StdDraw.line(x[j], y[j], x[j+1], y[j+1]);				
 			}
+			System.out.println(i+")"+colors[color]+"    f(x)="+this.f.get(i).toString());
 			color++;		
 		}
 	}
@@ -167,11 +172,11 @@ public class Functions_GUI implements functions
 				this.drawFunctions(512, 512, new Range(-10,10), new Range(-10,10), 100);
 			}			
 		} 
-		catch ( FileNotFoundException e) //default value
+		catch ( FileNotFoundException e) //default value for not exist file
 		{
 			this.drawFunctions(512, 512, new Range(-10,10), new Range(-10,10), 100);
 		}
-		catch ( JsonSyntaxException  e) //default value
+		catch ( JsonSyntaxException  e) //default value for unreadable file
 		{
 			this.drawFunctions(512, 512, new Range(-10,10), new Range(-10,10), 100);
 		}

@@ -1,9 +1,5 @@
 package Ex1Testing;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
-
-import java.io.IOException;
 import java.util.Iterator;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -44,21 +40,16 @@ class Functions_GUITest
 //		data.drawFunctions(w,h,rx,ry,res);
 		String file = "function_file.txt";
 		String file2 = "function_file2.txt";
-		try
-		{
+		try {
 			data.saveToFile(file);
 			Functions_GUI data2 = new Functions_GUI();
 			data2.initFromFile(file);
-			assertThrows( IOException.class,() -> data.saveToFile(file2));
+			data.saveToFile(file2);
 		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-		}
+		catch(Exception e) {e.printStackTrace();}
 		
 		String JSON_param_file = "GUI_params.txt";
 		data.drawFunctions(JSON_param_file);
-		
 	}
 	private functions _data=null;
 //	@BeforeAll
@@ -74,22 +65,31 @@ class Functions_GUITest
 	void testInitFromFile()
 	{
 		String file = "InitSuccess.txt";
-		String file1 = "InitUnsuccess.txt";
-		String file2="unreadable.txt";
 		try
 		{
 			_data.saveToFile(file);
 			Functions_GUI data1 = new Functions_GUI();
-			Functions_GUI data2 = new Functions_GUI();
-			Functions_GUI data3 = new Functions_GUI();
 			data1.initFromFile(file);
-			data2.initFromFile(file1);//file does not exists
-			data3.initFromFile(file2);//file unreadable
 		}
 		catch(Exception e)
 		{
 			e.printStackTrace();
-		}	
+		}
+		//check for file does not exists or unreadable :
+		
+//		String file1 = "InitUnsuccess.txt";
+//		String file2="unreadable.txt";
+//		try
+//		{
+//			Functions_GUI data2 = new Functions_GUI();
+//			Functions_GUI data3 = new Functions_GUI();
+//			data2.initFromFile(file1);//file does not exists
+//			data3.initFromFile(file2);//file unreadable
+//		}
+//		catch(Exception e)
+//		{
+//			e.printStackTrace();
+//		}
 	}
 
 	@Test
@@ -116,8 +116,8 @@ class Functions_GUITest
 	@Test
 	void testDrawFunctionsIntIntRangeRangeInt() 
 	{
-		_data.drawFunctions(750,750, new Range(-15,15),new Range(-15,15),300);
-		_data.drawFunctions(600,600, new Range(-10,10),new Range(-5,10),400);
+		_data.drawFunctions(750,750, new Range(-15,15),new Range(-15,15),100);
+		_data.drawFunctions(600,600, new Range(-10,10),new Range(-5,10),300);
 
 	}
 	public static functions FunctionsFactory() {
